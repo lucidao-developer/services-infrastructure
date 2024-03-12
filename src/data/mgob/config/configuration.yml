@@ -1,0 +1,95 @@
+scheduler:
+  # run every 5 min
+  cron: "*/5 * * * *"
+  # number of backups to keep locally
+  retention: 3
+  # backup operation timeout in minutes
+  timeout: 60
+target:
+  # add here your mongodb connection string
+  uri: ""
+  noGzip: false
+retry:
+  # number of retries
+  attempts: 3
+  # backoff factor  * (2 ^ attemptCount) seconds
+  backoffFactor: 60
+# Encryption (optional)
+# encryption:
+#   # At the time being, only gpg asymmetric encryption is supported
+#   # Public key file or at least one recipient is mandatory
+#   gpg:
+#     # optional path to a public key file, only the first key is used.
+#     keyFile: /secret/mgob-key/key.pub
+#     # optional key server, defaults to hkps://keys.openpgp.org
+#     keyServer: hkps://keys.openpgp.org
+#     # optional list of recipients, they will be looked up on key server
+#     recipients:
+#       - example@example.com
+# S3 upload (optional)
+#s3:
+#  url: "https://s3.eu-central-1.amazonaws.com"
+#  bucket: "cdmongobk/lucidao"
+  # accessKey and secretKey are optional for AWS, if your Docker image has awscli
+#  accessKey: ""
+#  secretKey: ""
+  # Optional, only used for AWS (when awscli is present)
+  # The customer-managed AWS Key Management  Service (KMS) key ID that should be used to
+  # server-side encrypt the backup in S3
+  #kmsKeyId:
+  # Optional, only used for AWS (when awscli is present)
+  # Valid choices are: STANDARD | REDUCED_REDUNDANCY | STANDARD_IA  |  ONE-
+  #     ZONE_IA  |  INTELLIGENT_TIERING  |  GLACIER | DEEP_ARCHIVE.
+  # Defaults to 'STANDARD'
+  #storageClass: STANDARD
+  # For Minio and AWS use S3v4 for GCP use S3v2
+#  api: "S3v4"
+# GCloud upload (optional)
+# gcloud:
+#   bucket: "backup"
+#   keyFilePath: /path/to/service-account.json
+# # Azure blob storage upload (optional)
+# azure:
+#   containerName: "backup"
+#   connectionString: "DefaultEndpointsProtocol=https;AccountName=...;AccountKey=...;EndpointSuffix=core.windows.net"
+# # Rclone upload (optional)
+# rclone:
+#   bucket: "my-backup-bucket"
+#   # See https://rclone.org/docs/ for details on how to configure rclone
+#   configFilePath: /etc/rclone.conf
+#   configSection: "myrclonesection"
+# # SFTP upload (optional)
+# sftp:
+#   host: 31.164.41.94
+#   port: 22
+#   username: ftpbackup
+#   password: 9sdfijo3e8ho
+#   # you can also specify path to a private key and a passphrase
+#   #private_key: /etc/ssh/ssh_host_rsa_key
+#   #passphrase: secretpassphrase
+#   # dir must exist on the SFTP server
+#   dir: ./Backup
+# # Email notifications (optional)
+# smtp:
+#   server: smtp.company.com
+#   port: 465
+#   username: user
+#   password: secret
+#   from: mgob@company.com
+#   to:
+#     - devops@company.com
+#     - alerts@company.com
+#   # 'true' to notify only on failures
+#   warnOnly: false
+
+# # Slack notifications (optional)
+# slack:
+#   url: https://hooks.slack.com/services/xxxx/xxx/xx
+#   channel: devops-alerts
+#   username: mgob
+#   # 'true' to notify only on failures
+#   warnOnly: false
+# team:
+#   webhookUrl: https://xxx/services/xxxx/xxx/xx
+#   warnOnly: false
+#   themeColor: "#f6c344"

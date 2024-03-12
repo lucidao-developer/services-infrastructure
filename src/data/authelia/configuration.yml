@@ -1,0 +1,85 @@
+###############################################################
+#                   Authelia configuration                    #
+###############################################################
+
+server:
+  host: 0.0.0.0
+  port: 9091
+
+log:
+  level: warn
+
+# This secret can also be set using the env variables AUTHELIA_JWT_SECRET_FILE
+# I used this site to generate the secret: https://www.grc.com/passwords.htm
+# jwt_secret:
+# https://docs.authelia.com/configuration/miscellaneous.html#default-redirection-url
+# default_redirection_url: https://authelia.example.com
+
+totp:
+  issuer: auth.iamlearningdocker.store
+  period: 30
+  skew: 1
+
+authentication_backend:
+  file:
+    path: /config/users_database.yml
+    # customize passwords based on https://docs.authelia.com/configuration/authentication/file.html
+    password:
+      algorithm: argon2id
+      iterations: 1
+      salt_length: 16
+      parallelism: 8
+      memory: 1024 # blocks this much of the RAM. Tune this.
+
+# https://docs.authelia.com/configuration/access-control.html
+access_control:
+  default_policy: deny
+  rules:
+    - domain: "monitor.iamlearningdocker.store"
+      policy: two_factor
+
+    - domain: "backup.iamlearningdocker.store"
+      policy: two_factor
+
+    - domain: "traefik.iamlearningdocker.store"
+      policy: two_factor
+
+    - domain: "portainer.iamlearningdocker.store"
+      policy: two_factor
+
+    - domain: "traefik.iamlearningdocker.store"
+      policy: two_factor
+
+    - domain: "whoami-2fa.iamlearningdocker.store"
+      policy: two_factor
+
+    - domain: "whoami-1fa.iamlearningdocker.store"
+      policy: one_factor
+
+    - domain: "*.iamlearningdocker.store"
+      policy: deny
+
+
+session:
+  name: authelia_session
+  # This secret can also be set using the env variables AUTHELIA_SESSION_SECRET_FILE
+  # Used a different secret, but the same site as jwt_secret above.
+  # secret:
+  expiration: 3600 # 1 hour
+  inactivity: 900 # 15 minutes
+  domain: iamlearningdocker.store # Should match whatever your root protected domain is
+
+regulation:
+  max_retries: 3
+  find_time: 120
+  ban_time: 300
+
+storage:
+  # encryption_key:
+  local:
+    path: /config/data/db.sqlite3
+
+
+notifier:
+  filesystem:
+     filename: /config/data/notification.txt
