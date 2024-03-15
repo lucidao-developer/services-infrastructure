@@ -9,6 +9,9 @@ fi
 # SSH configuration backup
 cp /etc/ssh/sshd_config /etc/ssh/sshd_config.bak
 
+# Remove default overrides
+rm /etc/ssh/sshd_config.d/*
+
 # Update sshd_config as needed
 echo "Include /etc/ssh/sshd_config.d/*.conf \
 # Authentication:\
